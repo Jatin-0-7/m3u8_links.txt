@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository 
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Fetch Latest M3U8 Link
@@ -19,8 +19,12 @@ jobs:
         run: |
           NEW_URL=$(curl -s -A "Mozilla/5.0" "$M3U8_FETCH_URL" | grep -oP 'https?://[^\s]+\.m3u8[^\s"]+')
           echo "Extracted M3U8: $NEW_URL"
+          
           if [ -n "$NEW_URL" ]; then
-            echo "$NEW_URL" > m3u8_links.m3u  # Save as .m3u
+            # Format as M3U file
+            echo "#EXTM3U" > m3u8_links.m3u
+            echo "#EXTINF:-1 tvg-id=\"\" tvg-logo=\"\" group-title=\"Live TV\", Sports 18 HD" >> m3u8_links.m3u
+            echo "$NEW_URL" >> m3u8_links.m3u
           fi
 
       - name: Commit and Push Changes
@@ -28,8 +32,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions@github.com"
-          git add m3u8_links.m3u
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add m3u8_links.txt
           git commit -m "🔄 Auto-update M3U8 link" || echo "No changes to commit"
-          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}
-          git push origin HEAD:main
+          git push
