@@ -34,4 +34,4 @@ jobs:
           git config --global user.email "github-actions@github.com"
           git add m3u8_links.txt
           git commit -m "🔄 Auto-update M3U8 link" || echo "No changes to commit"
-          git push
+          git push 
