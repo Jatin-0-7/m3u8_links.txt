@@ -1,1 +1,1 @@
-https://tvs1.aynaott.com/sports18/index.m3u8?token=a8c3cccf43629bdcbdf455172ea3c83994e70d95-3ed7e5e295b7c4b8104c15634a4c3504-1743677021-1743676121&remote=no_check_ip
+https://tvs1.aynaott.com/sports18/index.m3u8?token=64747d64c22a1c17b65ae7da8714c4b7472b79be-11a3bb4fb1813372e37f780143c10721-1743678011-1743677111&remote=no_check_ip
