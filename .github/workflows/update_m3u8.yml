@@ -2,7 +2,7 @@ name: Update M3U8 Link
 
 on:
   schedule:
-    - cron: "*/3 * * * *"  # Runs every 3 minutes
+    - cron: "*/1 * * * *"  # Runs every 1 minute
   workflow_dispatch:  # Allows manual trigger
 
 jobs:
@@ -15,10 +15,12 @@ jobs:
 
       - name: Fetch Latest M3U8 Link
         run: |
-          NEW_URL=$(curl -s -A "Mozilla/5.0" "https://re.fredflix.fun/Ayna/play.php?id=f1e1b6c8-9a1b-492d-bdf9-b63295e6073e" | grep -oP 'https?://[^\s]+\.m3u8[^\s"]+')
+          NEW_URL=$(curl -s -A "Mozilla/5.0" "https://re.fredflix.fun/Ayna/play.php?id=f1e1b6c8-9a1b-492d-bdf9-b63295e6073e" | sed -n 's/.*\(https\?:\/\/[^ ]*\.m3u8[^ "]*\).*/\1/p')
           echo "Extracted M3U8: $NEW_URL"
           if [ -n "$NEW_URL" ]; then
             echo "$NEW_URL" > m3u8_links.txt
+          else
+            echo "No M3U8 link found."
           fi
 
       - name: Commit and Push Changes
@@ -26,5 +28,5 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions@github.com"
           git add m3u8_links.txt
-          git commit -m "🔄 Auto-update M3U8 link" || echo "No changes to commit"
+          git commit -m "🔄 Auto-update M3U8 link" || exit 0  # Prevent failure if no changes
           git push
