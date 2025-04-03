@@ -6,7 +6,7 @@ on:
   workflow_dispatch:  # Allows manual trigger
 
 jobs:
-  update-m3u8:
+  update-m3u8: 
     runs-on: ubuntu-latest
 
     steps:
