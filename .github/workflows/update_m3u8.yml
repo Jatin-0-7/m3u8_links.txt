@@ -13,7 +13,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Fetch Latest M3U8 Link
+      - name: Fetch Latest M3U8 Link 
         env:
           FILE_URL: ${{ secrets.M3U8_FETCH_URL }}
         run: |
