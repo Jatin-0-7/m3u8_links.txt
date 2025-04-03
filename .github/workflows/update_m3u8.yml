@@ -10,26 +10,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout Repository 
         uses: actions/checkout@v4
 
-      - name: Fetch Latest M3U8 Link 
+      - name: Fetch Latest M3U8 Link
         env:
-          FILE_URL: ${{ secrets.M3U8_FETCH_URL }}
+          M3U8_FETCH_URL: ${{ secrets.M3U8_FETCH_URL }}
         run: |
-          NEW_URL=$(curl -s -A "Mozilla/5.0" "$FILE_URL" | grep -oP 'https?://[^\s]+\.m3u8[^\s"]+')
-          echo "Extracted M3U8: $NEW_URL"
+          NEW_URL=$(curl -s -A "Mozilla/5.0" "$M3U8_FETCH_URL" | grep -oP 'https?://[^\s]+\.m3u8[^\s"]+')
+          
           if [ -n "$NEW_URL" ]; then
-            echo "$NEW_URL" > m3u8_links.txt
+            echo "#EXTM3U" > m3u8_links.txt
+            echo "#EXTINF:-1 tvg-id=\"sports18\" tvg-logo=\"https://example.com/logo.png\" group-title=\"Sports\", Sports18" >> m3u8_links.txt
+            echo "$NEW_URL" >> m3u8_links.txt
+            echo "✅ M3U file updated successfully!"
+          else
+            echo "⚠️ Failed to fetch M3U8 URL"
           fi
 
       - name: Commit and Push Changes
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions@github.com"
           git add m3u8_links.txt
           git commit -m "🔄 Auto-update M3U8 link" || echo "No changes to commit"
-          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}
-          git push origin HEAD:main
+          git push
