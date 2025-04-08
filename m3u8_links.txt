@@ -1,3 +1,3 @@
 #EXTM3U
 #EXTINF:-1 tvg-id="sports18" tvg-logo="https://example.com/logo.png" group-title="Sports", Sports18
-https://tvs1.aynaott.com/sports18/index.m3u8?token=a4e2b6d09595ff5711ea64d3632dcb6f739b2ad3-c6e98c012532110be7fdda6cc1e858d6-1744123858-1744122958&remote=no_check_ip
+https://tvs1.aynaott.com/sports18/index.m3u8?token=d659ce61d4822ba99c84303f0d145a691d2d6279-68ce857604fe5529234f4cfc01945b81-1744124583-1744123683&remote=no_check_ip
